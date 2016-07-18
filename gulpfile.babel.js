@@ -97,17 +97,7 @@ gulp.task('image', () => {
     .pipe(gulp.dest(config.dest + '/images'));
 });
 
-gulp.task('clean', () => {
-  return del([
-    'dist/partials',
-    'dist/styles/*.css',
-    'dist/scripts/*.js',
-    '!dist/styles/{main, vendor}.css',
-    '!dist/scripts/{main, vendor}.js'
-  ]);
-});
-
-gulp.task('publish', () => {
+gulp.task('publish', ['build'], () => {
   return ghpages.publish(path.join(__dirname, config.dest));
 });
 
@@ -119,5 +109,11 @@ gulp.task('default', ['pug', 'sass', 'js', 'image', 'browserSync'], () => {
 });
 
 gulp.task('build', ['html', 'image'], () => {
-  gulp.start('clean');
+  return del([
+    'dist/partials',
+    'dist/styles/*.css',
+    'dist/scripts/*.js',
+    '!dist/styles/{main, vendor}.css',
+    '!dist/scripts/{main, vendor}.js'
+  ]);
 });
