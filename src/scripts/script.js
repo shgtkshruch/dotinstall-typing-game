@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  let currentWord, nextWord, currentLocation, score, miss, isStarted, timer, timerId;
+  let currentWord, currentLocation, score, miss, isStarted, timer, timerId;
 
   const target = document.getElementById('js-target');
   const scoreLabel = document.getElementById('js-score');
