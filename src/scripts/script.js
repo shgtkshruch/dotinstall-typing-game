@@ -8,14 +8,6 @@
   const missLabel = document.getElementById('js-miss');
   const timerLabel = document.getElementById('js-timer');
 
-  function getWord(cb) {
-    $.ajax({
-      type: 'GET',
-      url: 'http://randomword.setgetgo.com/get.php',
-      success: (word, status, xhr) => cb(word)
-    });
-  }
-
   // init
   (() => {
     currentWord = 'click to start';
@@ -25,8 +17,6 @@
     scoreLabel.textContent = score;
     missLabel.textContent = miss;
     timerLabel.textContent = timer;
-
-    getWord(word => nextWord = word);
   })();
 
   function updateTimer() {
@@ -42,9 +32,8 @@
   }
 
   function setTarget() {
-    target.textContent = currentWord = nextWord;
+    target.textContent = currentWord = words[Math.floor(Math.random() * words.length)];
     currentLocation = 0;
-    getWord(word => nextWord = word);
   }
 
   window.addEventListener('click', (e) => {
