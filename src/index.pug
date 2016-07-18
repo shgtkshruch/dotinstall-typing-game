@@ -9,12 +9,17 @@ html(lang="ja")
     meta(content='keywords', name='keywords')
     meta(content='width=device-width, initial-scale=1' name='viewport')
     meta(content='telephone=no', name='format-detection')
-    
+
     link(rel='stylesheet', href='styles/style.css', media='all')
   body
-    h1 Hello Github Pages
-
-    
+    p#js-target.target
+    p.info
+      | Letters count:&nbsp;
+      span#js-score
+      | , Miss count:&nbsp;
+      span#js-miss
+      | , Remaining Timer:&nbsp;
+      span#js-timer
 
     // build:js scripts/main.js
     script(src='scripts/script.js')
