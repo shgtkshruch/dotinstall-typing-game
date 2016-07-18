@@ -1,32 +1,31 @@
 (() => {
   'use strict';
 
-  const words = [
-      'apple',
-      'imagine',
-      'supply',
-      'fun',
-      'happy',
-      'air',
-      'sky'
-    ];
-
-  let currentWord, currentLocation, score, miss, isStarted, timer, timerId;
+  let currentWord, nextWord, currentLocation, score, miss, isStarted, timer, timerId;
 
   const target = document.getElementById('js-target');
   const scoreLabel = document.getElementById('js-score');
   const missLabel = document.getElementById('js-miss');
   const timerLabel = document.getElementById('js-timer');
 
+  function getWord(cb) {
+    $.ajax({
+      type: 'GET',
+      url: 'http://randomword.setgetgo.com/get.php',
+      success: (word, status, xhr) => cb(word)
+    });
+  }
+
   (function init() {
     currentWord = 'click to start';
-    [currentLocation, score, miss, timer] = [0, 0, 0, 3];
+    [currentLocation, score, miss, timer, isStarted] = [0, 0, 0, 20, false];
 
     target.textContent = currentWord;
     scoreLabel.textContent = score;
     missLabel.textContent = miss;
     timerLabel.textContent = timer;
-    isStarted = false;
+
+    getWord(word => nextWord = word);
   })();
 
   function updateTimer() {
@@ -42,9 +41,9 @@
   }
 
   function setTarget() {
-    currentWord = words[Math.floor(Math.random() * words.length)];
-    target.textContent = currentWord;
+    target.textContent = currentWord = nextWord;
     currentLocation = 0;
+    getWord(word => nextWord = word);
   }
 
   window.addEventListener('click', function (e) {
