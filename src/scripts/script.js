@@ -16,7 +16,8 @@
     });
   }
 
-  (function init() {
+  // init
+  (() => {
     currentWord = 'click to start';
     [currentLocation, score, miss, timer, isStarted] = [0, 0, 0, 20, false];
 
@@ -29,7 +30,7 @@
   })();
 
   function updateTimer() {
-    timerId = setInterval(function() {
+    timerId = setInterval(() => {
       timerLabel.textContent = --timer;
       if (timer <= 0) {
         let accuracy = (score + miss) === 0 ? '0.00' : ((score / (score + miss) * 100)).toFixed(2);
@@ -46,7 +47,7 @@
     getWord(word => nextWord = word);
   }
 
-  window.addEventListener('click', function (e) {
+  window.addEventListener('click', (e) => {
     if (!isStarted) {
       isStarted = true;
       setTarget() ;
@@ -54,7 +55,7 @@
     }
   }, false);
 
-  window.addEventListener('keyup', function (e) {
+  window.addEventListener('keyup', (e) => {
     if (!isStarted) return;
 
     // 押したキーが押すべき文字と等しいかどうか判定
