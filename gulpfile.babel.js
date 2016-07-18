@@ -30,9 +30,12 @@ gulp.task('browserSync', () => {
   });
 });
 
-gulp.task('html', ['pug'], () => {
+gulp.task('html', ['pug', 'sass', 'js'], () => {
   return gulp.src(config.dest + '/index.html')
     .pipe($.useref())
+    .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
+    .pipe($.if('*.js', $.uglify()))
+    .pipe($.if('*.css', $.cleanCss()))
     .pipe(gulp.dest(config.dest));
 });
 
@@ -95,7 +98,13 @@ gulp.task('image', () => {
 });
 
 gulp.task('clean', () => {
-  return del(['dist/partials', 'dist/scripts/*.js', '!dist/scripts/{main,vendor}.js']);
+  return del([
+    'dist/partials',
+    'dist/styles/*.css',
+    'dist/scripts/*.js',
+    '!dist/styles/{main, vendor}.css',
+    '!dist/scripts/{main, vendor}.js'
+  ]);
 });
 
 gulp.task('publish', () => {
@@ -109,6 +118,6 @@ gulp.task('default', ['pug', 'sass', 'js', 'image', 'browserSync'], () => {
   gulp.watch(config.src + '/images/*', ['image']);
 });
 
-gulp.task('build', ['html', 'sass', 'js', 'image'], () => {
+gulp.task('build', ['html', 'image'], () => {
   gulp.start('clean');
 });
